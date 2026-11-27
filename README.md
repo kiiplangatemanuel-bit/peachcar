@@ -47,6 +47,7 @@ Never commit credentials, database URLs containing passwords, or Cloudinary secr
 - Backend: deploy the `backend/` directory as a Java service (build: `mvn -B clean package`; start: `java -jar target/peachcar-api-0.1.0.jar`).
 - Database: set `SPRING_DATASOURCE_URL` to a JDBC PostgreSQL URL and provide DB credentials separately.
 - Set `SESSION_COOKIE_SECURE=true`, `PEACHCAR_ADMIN_EMAIL`, `PEACHCAR_ADMIN_PASSWORD`, and all three Cloudinary credentials on the backend.
+- Set `APP_ORIGIN` to the exact deployed frontend origin; use comma-separated exact origins if you support multiple Vercel preview domains.
 - The initial admin is only inserted when its email does not already exist. Password rotation for an existing admin should be performed through a separately secured credential-management procedure.
 
 ## Routes
