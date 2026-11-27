@@ -2,6 +2,8 @@ package ke.peachcar.admin;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.*;
 import org.springframework.security.core.AuthenticationException;
@@ -20,7 +22,7 @@ public class AdminAuthController {
     private final CookieCsrfTokenRepository csrfTokens;
     public AdminAuthController(AuthenticationManager manager, SecurityContextRepository contexts, CookieCsrfTokenRepository csrfTokens){this.authenticationManager=manager;this.contexts=contexts;this.csrfTokens=csrfTokens;}
     @PostMapping("/login")
-    public Map<String,String> login(@RequestBody LoginRequest body,HttpServletRequest request, jakarta.servlet.http.HttpServletResponse response){
+    public Map<String,String> login(@Valid @RequestBody LoginRequest body,HttpServletRequest request, jakarta.servlet.http.HttpServletResponse response){
         Authentication authentication;
         try { authentication=authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(body.email(),body.password())); }
         catch (AuthenticationException ex) { throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,"Invalid email or password"); }
@@ -30,5 +32,5 @@ public class AdminAuthController {
         return Map.of("email",authentication.getName(),"role","ADMIN");
     }
     @GetMapping("/me") public Map<String,String> me(Authentication auth){return Map.of("email",auth.getName(),"role","ADMIN");}
-    public record LoginRequest(String email,String password){}
+    public record LoginRequest(@NotBlank String email,@NotBlank String password){}
 }
