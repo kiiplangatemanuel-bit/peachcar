@@ -26,11 +26,11 @@ public class SecurityConfig {
         CookieCsrfTokenRepository csrf=CookieCsrfTokenRepository.withHttpOnlyFalse();
         csrf.setCookiePath("/");
         http
-          .csrf(c->c.csrfTokenRepository(csrf).csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler()))
+          .cors(c->{}).csrf(c->c.csrfTokenRepository(csrf).csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler()))
           .securityContext(c->c.securityContextRepository(repository))
           .sessionManagement(s->s.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED).sessionFixation(f->f.migrateSession()))
           .authorizeHttpRequests(a->a
-             .requestMatchers("/api/public/**","/api/admin/auth/**","/api/csrf","/actuator/health").permitAll()
+             .requestMatchers("/api/public/**","/api/admin/auth/login","/api/csrf","/actuator/health").permitAll()
              .requestMatchers(HttpMethod.OPTIONS,"/**").permitAll()
              .requestMatchers("/api/admin/**").hasRole("ADMIN")
              .anyRequest().permitAll())
