@@ -21,10 +21,11 @@ public class AdminVehicleController {
  @GetMapping public List<VehicleView> all(){return vehicles.findAll().stream().sorted(Comparator.comparing(Vehicle::getCreatedAt).reversed()).map(mapper::view).toList();}
  @PostMapping public VehicleView create(@Valid @RequestBody VehicleRequest body){Vehicle v=new Vehicle();apply(v,body);v.setStatus(VehicleStatus.DRAFT);return mapper.view(vehicles.save(v));}
  @PutMapping("/{id}") public VehicleView update(@PathVariable UUID id,@Valid @RequestBody VehicleRequest body){Vehicle v=find(id);apply(v,body);return mapper.view(vehicles.save(v));}
- @PatchMapping("/{id}/status") public VehicleView status(@PathVariable UUID id,@RequestBody StatusRequest body){Vehicle v=find(id);if(body.status()==VehicleStatus.PUBLISHED&&images.findByVehicleIdOrderBySortOrderAsc(id).isEmpty())throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Upload at least one vehicle image before publishing.");v.setStatus(body.status());return mapper.view(vehicles.save(v));}
+ @PatchMapping("/{id}/status") public VehicleView status(@PathVariable UUID id,@Valid @RequestBody StatusRequest body){Vehicle v=find(id);if(body.status()==VehicleStatus.PUBLISHED&&images.findByVehicleIdOrderBySortOrderAsc(id).isEmpty())throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Upload at least one vehicle image before publishing.");v.setStatus(body.status());return mapper.view(vehicles.save(v));}
  @PostMapping(value="/{id}/images",consumes="multipart/form-data") @Transactional public VehicleView upload(@PathVariable UUID id,@RequestPart("files") List<MultipartFile> files) throws IOException {
   Vehicle v=find(id);if(files==null||files.isEmpty()||files.size()>8)throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Upload between 1 and 8 images per request.");
   int order=images.findByVehicleIdOrderBySortOrderAsc(id).size();
+  if(order+files.size()>20)throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"A vehicle may have at most 20 images.");
   for(MultipartFile file:files){ImageStorageService.StoredImage stored=storage.upload(file);images.save(new VehicleImage(v,stored.publicId(),stored.secureUrl(),v.getMake()+" "+v.getModel(),order++));}
   return mapper.view(v);
  }
