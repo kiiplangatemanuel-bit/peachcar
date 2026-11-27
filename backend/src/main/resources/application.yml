@@ -1,0 +1,25 @@
+server:
+  port: ${PORT:8080}
+spring:
+  application:
+    name: peachcar-api
+  datasource:
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/peachcar}
+    username: ${DB_USERNAME:peachcar}
+    password: ${DB_PASSWORD:peachcar}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
