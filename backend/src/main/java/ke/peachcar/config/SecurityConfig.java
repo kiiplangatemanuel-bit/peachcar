@@ -22,9 +22,8 @@ public class SecurityConfig {
     @Bean PasswordEncoder passwordEncoder(){return new BCryptPasswordEncoder(12);}
     @Bean AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception{return config.getAuthenticationManager();}
     @Bean SecurityContextRepository securityContextRepository(){return new HttpSessionSecurityContextRepository();}
-    @Bean SecurityFilterChain securityFilterChain(HttpSecurity http, SecurityContextRepository repository) throws Exception {
-        CookieCsrfTokenRepository csrf=CookieCsrfTokenRepository.withHttpOnlyFalse();
-        csrf.setCookiePath("/");
+    @Bean org.springframework.security.web.csrf.CookieCsrfTokenRepository csrfTokenRepository(){org.springframework.security.web.csrf.CookieCsrfTokenRepository repo=org.springframework.security.web.csrf.CookieCsrfTokenRepository.withHttpOnlyFalse();repo.setCookiePath("/");return repo;}
+    @Bean SecurityFilterChain securityFilterChain(HttpSecurity http, SecurityContextRepository repository, org.springframework.security.web.csrf.CookieCsrfTokenRepository csrf) throws Exception {
         http
           .cors(c->{}).csrf(c->c.csrfTokenRepository(csrf).csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler()))
           .securityContext(c->c.securityContextRepository(repository))
