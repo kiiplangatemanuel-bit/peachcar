@@ -8,7 +8,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import java.util.Map;
 
 @Configuration
-@ConditionalOnProperty(name = "CLOUDINARY_CLOUD_NAME")
+@ConditionalOnProperty(name = "cloudinary.cloud-name")
 public class CloudinaryConfig {
  @Bean Cloudinary cloudinary(@Value("${CLOUDINARY_CLOUD_NAME:}") String cloud,@Value("${CLOUDINARY_API_KEY:}") String key,@Value("${CLOUDINARY_API_SECRET:}") String secret){
   if(cloud.isBlank()||key.isBlank()||secret.isBlank()) throw new IllegalStateException("Cloudinary credentials must be supplied together.");
