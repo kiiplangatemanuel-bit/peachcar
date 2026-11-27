@@ -37,7 +37,7 @@ public class SecurityConfig {
         return http.build();
     }
     @Bean CorsConfigurationSource corsConfigurationSource(@org.springframework.beans.factory.annotation.Value("${APP_ORIGIN:http://localhost:3000}") String origin){
-        CorsConfiguration c=new CorsConfiguration(); c.setAllowedOrigins(List.of(origin)); c.setAllowedMethods(List.of("GET","POST","PUT","PATCH","DELETE","OPTIONS")); c.setAllowedHeaders(List.of("Content-Type","X-XSRF-TOKEN")); c.setAllowCredentials(true);
+        CorsConfiguration c=new CorsConfiguration(); c.setAllowedOrigins(java.util.Arrays.stream(origin.split(",")).map(String::trim).filter(v->!v.isEmpty()).toList()); c.setAllowedMethods(List.of("GET","POST","PUT","PATCH","DELETE","OPTIONS")); c.setAllowedHeaders(List.of("Content-Type","X-XSRF-TOKEN")); c.setAllowCredentials(true);
         UrlBasedCorsConfigurationSource source=new UrlBasedCorsConfigurationSource();source.registerCorsConfiguration("/**",c);return source;
     }
 }
