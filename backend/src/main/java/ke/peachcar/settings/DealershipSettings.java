@@ -18,4 +18,7 @@ public class DealershipSettings {
     public String getPhoneNumber() { return phoneNumber; }
     public String getWhatsappNumber() { return whatsappNumber; }
     public String getContactEmail() { return contactEmail; }
+    public void setPhoneNumber(String value) { phoneNumber = value; }
+    public void setWhatsappNumber(String value) { whatsappNumber = value; }
+    public void setContactEmail(String value) { contactEmail = value; }
 }

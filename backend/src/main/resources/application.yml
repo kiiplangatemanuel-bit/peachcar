@@ -1,12 +1,23 @@
 server:
   port: ${PORT:8080}
+  forward-headers-strategy: framework
+  servlet:
+    session:
+      cookie:
+        http-only: true
+        secure: ${SESSION_COOKIE_SECURE:false}
+        same-site: lax
 spring:
   application:
     name: peachcar-api
   datasource:
-    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/peachcar}
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/peachcar}
     username: ${DB_USERNAME:peachcar}
     password: ${DB_PASSWORD:peachcar}
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 85MB
   jpa:
     hibernate:
       ddl-auto: validate
