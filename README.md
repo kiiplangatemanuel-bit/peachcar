@@ -50,6 +50,13 @@ Never commit credentials, database URLs containing passwords, or Cloudinary secr
 - Set `APP_ORIGIN` to the exact deployed frontend origin; use comma-separated exact origins if you support multiple Vercel preview domains.
 - The initial admin is only inserted when its email does not already exist. Password rotation for an existing admin should be performed through a separately secured credential-management procedure.
 
+### Isolated preview deployment
+
+- Scope `API_BASE_URL=https://peachcar-api.onrender.com` to the Vercel Preview environment and the exact preview Git branch; do not add it to Production unless intentionally releasing.
+- Set `PEACHCAR_ADMIN_BOOTSTRAP_REQUIRED=true` only on a preview backend after both admin credentials have been configured. This makes startup fail rather than silently launching without an admin.
+- Cloudinary activation uses the exact variables `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY` and `CLOUDINARY_API_SECRET`. If the cloud name is present but either credential is missing, startup fails with a configuration error.
+- Never reuse a production database or production admin credentials for an untrusted preview environment.
+
 ## Routes
 
 Public:
