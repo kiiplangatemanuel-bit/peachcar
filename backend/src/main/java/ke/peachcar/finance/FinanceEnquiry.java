@@ -20,5 +20,6 @@ public class FinanceEnquiry {
  @Column(nullable=false,length=20) private String status="NEW";
  @Column(nullable=false) private Instant createdAt=Instant.now();
  protected FinanceEnquiry(){}
+ public UUID getId(){return id;}
  public FinanceEnquiry(Vehicle vehicle,CustomerAccount customer,String fullName,String email,String phone,BigDecimal monthlyIncome,BigDecimal depositKes,int term,String message){this.vehicle=vehicle;this.customer=customer;this.fullName=fullName;this.email=email;this.phone=phone;this.monthlyIncome=monthlyIncome;this.depositKes=depositKes;this.preferredTermMonths=term;this.message=message;}
 }
