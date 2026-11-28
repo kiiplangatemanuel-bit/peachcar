@@ -77,7 +77,6 @@ export default function Home(){
  const whatsapp=digits(settings.whatsappNumber||"");
  const email=(settings.contactEmail||"").trim();
  const wa=whatsapp?"https://wa.me/"+whatsapp+"?text="+encodeURIComponent("Hello Peachcar, I would like to enquire about a vehicle."):"#";
- const featured=vehicles.find(v=>v.images?.some(image=>Boolean(image.url)));
  const update=(key:keyof Filters,value:string)=>setFilters(current=>({...current,[key]:value}));
  const activeCount=Object.values(filters).filter(Boolean).length;
  const clearFilters=()=>{setFilters(initialFilters);setQuery("");};
@@ -86,7 +85,7 @@ export default function Home(){
   <Header phone={phone} whatsapp={whatsapp}/>
   <main className="market-main">
    <section className="market-hero"><div className="market-shell market-hero-grid">
-    <div className={"market-hero-feature "+(featured?"has-featured-photo":"no-featured-photo")}><div className="market-hero-copy"><span className="market-eyebrow"><Sparkles size={13}/> A BETTER WAY TO FIND YOUR NEXT CAR</span><h1>Good cars.<br/><em>Good decisions.</em></h1><p>Discover carefully presented vehicles, clear KES pricing and a team ready to help you make your next move.</p><a className="market-pink-btn" href="#inventory">Explore cars <ArrowUpRight size={16}/></a><div className="market-proof-row"><span><CarFront/> Live dealership inventory</span><span><ShieldCheck/> Guided buying experience</span></div></div>{featured&&<div className="market-hero-visual"><img src={featured.images.find(image=>image.url)!.url} alt={featured.make+" "+featured.model}/><span className="market-visual-caption">{featured.make+" "+featured.model} <b>{money(featured.priceKes)}</b></span></div>}</div>
+    <div className="market-hero-feature has-featured-photo"><div className="market-hero-copy"><span className="market-eyebrow"><Sparkles size={13}/> A BETTER WAY TO FIND YOUR NEXT CAR</span><h1>Good cars.<br/><em>Good decisions.</em></h1><p>Discover carefully presented vehicles, clear KES pricing and a team ready to help you make your next move.</p><a className="market-pink-btn" href="#inventory">Explore cars <ArrowUpRight size={16}/></a><div className="market-proof-row"><span><CarFront/> Live dealership inventory</span><span><ShieldCheck/> Guided buying experience</span></div></div><div className="market-hero-visual"><img src="https://images.unsplash.com/photo-1655288801988-f631c216aaa5?auto=format&fit=crop&w=1600&q=85" alt="Photograph of a modern silver SUV parked outdoors" fetchPriority="high"/><span className="market-visual-caption">Find your next drive</span></div></div>
     <div className="market-hero-side"><div className="market-side-promo"><span className="market-eyebrow">FOR EVERY KIND OF JOURNEY</span><h2>Find a car that<br/><em>feels like yours.</em></h2><p>Browse our published collection and enquire directly with our team.</p><a href="#inventory">Browse inventory <ArrowRight size={15}/></a></div><div className="market-side-help"><div><span>Need a hand?</span><strong>We are one message away.</strong></div>{whatsapp?<a href={wa} target="_blank" rel="noreferrer"><MessageCircle size={17}/></a>:<a href="#contact"><ArrowUpRight size={17}/></a>}</div></div>
    </div></section>
 
