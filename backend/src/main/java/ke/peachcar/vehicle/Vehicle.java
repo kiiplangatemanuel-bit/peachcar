@@ -21,6 +21,12 @@ public class Vehicle {
     @Column(length = 40) private String bodyType;
     @Column(length = 40) private String exteriorColour;
     @Column(columnDefinition = "text") private String description;
+    @Column(name="listing_type",nullable=false,length=24) private String listingType = "LOCALLY_USED";
+    @Column(name="duty_status",nullable=false,length=24) private String dutyStatus = "DUTY_PAID";
+    @Column(name="inspection_status",nullable=false,length=24) private String inspectionStatus = "NOT_INSPECTED";
+    @Column(name="inspection_report",columnDefinition="text") private String inspectionReport;
+    @Column(name="inspection_date") private java.time.LocalDate inspectionDate;
+    @Column(name="accident_history",nullable=false,length=24) private String accidentHistory = "UNKNOWN";
     @Enumerated(EnumType.STRING) @Column(nullable = false, length = 20) private VehicleStatus status = VehicleStatus.DRAFT;
     @Column(nullable = false) private Instant createdAt = Instant.now();
     @Column(nullable = false) private Instant updatedAt = Instant.now();
@@ -37,6 +43,12 @@ public class Vehicle {
     public String getBodyType() { return bodyType; }
     public String getExteriorColour() { return exteriorColour; }
     public String getDescription() { return description; }
+    public String getListingType() { return listingType; }
+    public String getDutyStatus() { return dutyStatus; }
+    public String getInspectionStatus() { return inspectionStatus; }
+    public String getInspectionReport() { return inspectionReport; }
+    public java.time.LocalDate getInspectionDate() { return inspectionDate; }
+    public String getAccidentHistory() { return accidentHistory; }
     public VehicleStatus getStatus() { return status; }
     public Instant getCreatedAt() { return createdAt; }
     public Instant getUpdatedAt() { return updatedAt; }
@@ -50,5 +62,11 @@ public class Vehicle {
     public void setBodyType(String v) { bodyType = v; }
     public void setExteriorColour(String v) { exteriorColour = v; }
     public void setDescription(String v) { description = v; }
+    public void setListingType(String v) { listingType = v; }
+    public void setDutyStatus(String v) { dutyStatus = v; }
+    public void setInspectionStatus(String v) { inspectionStatus = v; }
+    public void setInspectionReport(String v) { inspectionReport = v; }
+    public void setInspectionDate(java.time.LocalDate v) { inspectionDate = v; }
+    public void setAccidentHistory(String v) { accidentHistory = v; }
     public void setStatus(VehicleStatus v) { status = v; }
 }

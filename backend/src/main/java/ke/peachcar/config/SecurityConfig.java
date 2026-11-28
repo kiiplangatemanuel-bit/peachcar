@@ -29,9 +29,10 @@ public class SecurityConfig {
           .securityContext(c->c.securityContextRepository(repository))
           .sessionManagement(s->s.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED).sessionFixation(f->f.migrateSession()))
           .authorizeHttpRequests(a->a
-             .requestMatchers("/api/public/**","/api/admin/auth/login","/api/csrf","/actuator/health").permitAll()
+             .requestMatchers("/api/public/**","/api/admin/auth/login","/api/customer/auth/register","/api/customer/auth/login","/api/csrf","/actuator/health").permitAll()
              .requestMatchers(HttpMethod.OPTIONS,"/**").permitAll()
              .requestMatchers("/api/admin/**").hasRole("ADMIN")
+             .requestMatchers("/api/customer/**").hasRole("CUSTOMER")
              .anyRequest().permitAll())
           .logout(l->l.logoutUrl("/api/admin/auth/logout").logoutSuccessHandler((req,res,auth)->res.setStatus(204)));
         return http.build();
