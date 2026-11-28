@@ -26,6 +26,7 @@ public class AdminAuthController {
         Authentication authentication;
         try { authentication=authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(body.email(),body.password())); }
         catch (AuthenticationException ex) { throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,"Invalid email or password"); }
+        if(authentication.getAuthorities().stream().noneMatch(a->a.getAuthority().equals("ROLE_ADMIN")))throw new ResponseStatusException(HttpStatus.FORBIDDEN,"Administrator account required.");
         if(request.getSession(false)!=null) request.changeSessionId();
         csrfTokens.saveToken(null,request,response);
         SecurityContext context=SecurityContextHolder.createEmptyContext();context.setAuthentication(authentication);SecurityContextHolder.setContext(context);contexts.saveContext(context,request,response);
