@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import WishlistButton from "./components/WishlistButton";
 import {
   ArrowRight, ArrowUpRight, BadgeCheck, CalendarDays, CarFront, CheckCircle2,
   ChevronDown, ChevronLeft, ChevronRight, CircleHelp, Fuel, Gauge, Heart,
@@ -36,7 +37,7 @@ function VehicleCard({vehicle,whatsapp}:{vehicle:Vehicle;whatsapp:string}){
  const message=encodeURIComponent("Hello Peachcar, I am interested in the "+vehicle.year+" "+vehicle.make+" "+vehicle.model+".");
  const enquiry=whatsapp?"https://wa.me/"+whatsapp+"?text="+message:"#contact";
  return <article className="market-car-card">
-  <a className="market-car-image" href={"/cars/"+vehicle.id}><img src={image} alt={vehicle.images?.[0]?.altText||vehicle.make+" "+vehicle.model}/><span className="market-car-badge"><BadgeCheck size={13}/> Peachcar listing</span><WishlistButton vehicleId={vehicle.id}/></a>
+  <a className="market-car-image" href={"/cars/"+vehicle.id}><img src={image} alt={vehicle.images?.[0]?.altText||vehicle.make+" "+vehicle.model}/><span className="market-car-badge"><BadgeCheck size={13}/> Peachcar listing</span></a><WishlistButton vehicleId={vehicle.id}/>
   <div className="market-car-content"><div className="market-car-meta">{vehicle.year} <span>·</span> {vehicle.bodyType||"Vehicle"} <span>·</span> {vehicle.exteriorColour||"Colour on request"}</div><h3><a href={"/cars/"+vehicle.id}>{vehicle.make} {vehicle.model}</a></h3><div className="market-car-specs"><span><Gauge size={14}/>{vehicle.mileageKm==null?"Mileage on request":Number(vehicle.mileageKm).toLocaleString()+" km"}</span><span><Fuel size={14}/>{vehicle.fuel||"Fuel on request"}</span><span><CarFront size={14}/>{vehicle.transmission||"Transmission on request"}</span></div><div className="market-car-bottom"><strong>{money(vehicle.priceKes)}</strong><a href={enquiry} target={whatsapp?"_blank":undefined} rel={whatsapp?"noreferrer":undefined} aria-label={"Enquire about "+vehicle.make+" "+vehicle.model}><ArrowUpRight size={19}/></a></div></div>
  </article>;
 }
