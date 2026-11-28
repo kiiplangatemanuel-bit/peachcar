@@ -245,3 +245,5 @@
 .finance-enquiry-card>div:last-child{display:grid;gap:8px;align-content:start}
 .finance-enquiry-card select{border:1px solid #e6dfda;padding:8px;font-size:11px;background:#fff}
 @media(max-width:650px){.customer-auth-card,.finance-card{padding:24px 18px}.customer-auth-card h1,.finance-card h1,.wishlist-page h1{font-size:31px}.customer-auth-card form,.finance-card form{grid-template-columns:1fr}.customer-auth-card form label,.finance-card form label{grid-column:1}.finance-enquiry-card{flex-direction:column}.market-car-tags span{font-size:9px}}
+
+.wishlist-signout{float:right;border:1px solid #e8e0db;background:#fff;padding:9px 14px;color:#6d625c;font-size:11px;cursor:pointer}
