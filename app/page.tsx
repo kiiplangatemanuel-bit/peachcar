@@ -33,11 +33,11 @@ function Header({phone,whatsapp}:{phone:string;whatsapp:string}){
 }
 
 function VehicleCard({vehicle,whatsapp}:{vehicle:Vehicle;whatsapp:string}){
- const image=vehicle.images?.[0]?.url||"/car-placeholder.svg";
+ const image=vehicle.images?.find(item=>item.url)?.url;
  const message=encodeURIComponent("Hello Peachcar, I am interested in the "+vehicle.year+" "+vehicle.make+" "+vehicle.model+".");
  const enquiry=whatsapp?"https://wa.me/"+whatsapp+"?text="+message:"#contact";
  return <article className="market-car-card">
-  <a className="market-car-image" href={"/cars/"+vehicle.id}><img src={image} alt={vehicle.images?.[0]?.altText||vehicle.make+" "+vehicle.model}/><span className="market-car-badge"><BadgeCheck size={13}/> Peachcar listing</span></a><WishlistButton vehicleId={vehicle.id}/>
+  <a className="market-car-image" href={"/cars/"+vehicle.id}>{image&&<img src={image} alt={vehicle.images?.[0]?.altText||vehicle.make+" "+vehicle.model}/>}<span className="market-car-badge"><BadgeCheck size={13}/> Peachcar listing</span></a><WishlistButton vehicleId={vehicle.id}/>
   <div className="market-car-content"><div className="market-car-meta">{vehicle.year} <span>·</span> {vehicle.bodyType||"Vehicle"} <span>·</span> {vehicle.exteriorColour||"Colour on request"}</div><div className="market-car-tags"><span>{vehicle.listingType==="FRESH_IMPORT"?"Fresh import":"Locally used"}</span><span>{vehicle.dutyStatus==="IN_BOND"?"In bond":vehicle.dutyStatus==="DUTY_PENDING"?"Duty pending":"Duty paid"}</span>{vehicle.inspectionStatus==="INSPECTED"&&<span>Inspected</span>}</div><h3><a href={"/cars/"+vehicle.id}>{vehicle.make} {vehicle.model}</a></h3><div className="market-car-specs"><span><Gauge size={14}/>{vehicle.mileageKm==null?"Mileage on request":Number(vehicle.mileageKm).toLocaleString()+" km"}</span><span><Fuel size={14}/>{vehicle.fuel||"Fuel on request"}</span><span><CarFront size={14}/>{vehicle.transmission||"Transmission on request"}</span></div><div className="market-car-bottom"><strong>{money(vehicle.priceKes)}</strong><a href={enquiry} target={whatsapp?"_blank":undefined} rel={whatsapp?"noreferrer":undefined} aria-label={"Enquire about "+vehicle.make+" "+vehicle.model}><ArrowUpRight size={19}/></a></div></div>
  </article>;
 }
@@ -67,6 +67,7 @@ export default function Home(){
  const filtered=useMemo(()=>{
   const q=query.trim().toLowerCase();
   const found=vehicles.filter(v=>{
+   if(!v.images?.some(image=>Boolean(image.url)))return false;
    const text=[v.make,v.model,v.year,v.bodyType,v.fuel,v.transmission,v.exteriorColour].join(" ").toLowerCase();
    return (!q||text.includes(q))&&(!filters.make||v.make===filters.make)&&(!filters.body||v.bodyType===filters.body)&&(!filters.fuel||v.fuel===filters.fuel)&&(!filters.transmission||v.transmission===filters.transmission)&&(!filters.listingType||v.listingType===filters.listingType)&&(!filters.dutyStatus||v.dutyStatus===filters.dutyStatus)&&(!filters.inspectionStatus||v.inspectionStatus===filters.inspectionStatus)&&(!filters.accidentHistory||v.accidentHistory===filters.accidentHistory)&&(!filters.yearFrom||v.year>=Number(filters.yearFrom))&&(!filters.yearTo||v.year<=Number(filters.yearTo))&&(!filters.priceFrom||Number(v.priceKes)>=Number(filters.priceFrom))&&(!filters.priceTo||Number(v.priceKes)<=Number(filters.priceTo))&&(!filters.mileageTo||(v.mileageKm!==null&&Number(v.mileageKm)<=Number(filters.mileageTo)));
   });
@@ -76,7 +77,7 @@ export default function Home(){
  const whatsapp=digits(settings.whatsappNumber||"");
  const email=(settings.contactEmail||"").trim();
  const wa=whatsapp?"https://wa.me/"+whatsapp+"?text="+encodeURIComponent("Hello Peachcar, I would like to enquire about a vehicle."):"#";
- const featured=vehicles[0];
+ const featured=vehicles.find(v=>v.images?.some(image=>Boolean(image.url)));
  const update=(key:keyof Filters,value:string)=>setFilters(current=>({...current,[key]:value}));
  const activeCount=Object.values(filters).filter(Boolean).length;
  const clearFilters=()=>{setFilters(initialFilters);setQuery("");};
@@ -85,8 +86,8 @@ export default function Home(){
   <Header phone={phone} whatsapp={whatsapp}/>
   <main className="market-main">
    <section className="market-hero"><div className="market-shell market-hero-grid">
-    <div className="market-hero-feature"><div className="market-hero-copy"><span className="market-eyebrow"><Sparkles size={13}/> A BETTER WAY TO FIND YOUR NEXT CAR</span><h1>Good cars.<br/><em>Good decisions.</em></h1><p>Discover carefully presented vehicles, clear KES pricing and a team ready to help you make your next move.</p><a className="market-pink-btn" href="#inventory">Explore cars <ArrowUpRight size={16}/></a><div className="market-proof-row"><span><CarFront/> Live dealership inventory</span><span><ShieldCheck/> Guided buying experience</span></div></div><div className="market-hero-visual">{featured?.images?.[0]?.url?<img src={featured.images[0].url} alt={featured.make+" "+featured.model}/>:<div className="market-car-silhouette"><CarFront size={160} strokeWidth={0.7}/></div>}<span className="market-visual-caption">{featured?featured.make+" "+featured.model:"FIND YOUR NEXT DRIVE"} <b>{featured?money(featured.priceKes):"PEACHCAR"}</b></span></div><div className="market-hero-count"><b>01</b><span>/</span> 03</div></div>
-    <div className="market-hero-side"><div className="market-side-promo"><span className="market-eyebrow">FOR EVERY KIND OF JOURNEY</span><h2>Find a car that<br/><em>feels like yours.</em></h2><p>Browse our published collection and enquire directly with our team.</p><a href="#inventory">Browse inventory <ArrowRight size={15}/></a><div className="market-promo-art"><CarFront size={112} strokeWidth={0.8}/></div></div><div className="market-side-help"><div><span>Need a hand?</span><strong>We are one message away.</strong></div>{whatsapp?<a href={wa} target="_blank" rel="noreferrer"><MessageCircle size={17}/></a>:<a href="#contact"><ArrowUpRight size={17}/></a>}</div></div>
+    <div className={"market-hero-feature "+(featured?"has-featured-photo":"no-featured-photo")}><div className="market-hero-copy"><span className="market-eyebrow"><Sparkles size={13}/> A BETTER WAY TO FIND YOUR NEXT CAR</span><h1>Good cars.<br/><em>Good decisions.</em></h1><p>Discover carefully presented vehicles, clear KES pricing and a team ready to help you make your next move.</p><a className="market-pink-btn" href="#inventory">Explore cars <ArrowUpRight size={16}/></a><div className="market-proof-row"><span><CarFront/> Live dealership inventory</span><span><ShieldCheck/> Guided buying experience</span></div></div>{featured&&<div className="market-hero-visual"><img src={featured.images.find(image=>image.url)!.url} alt={featured.make+" "+featured.model}/><span className="market-visual-caption">{featured.make+" "+featured.model} <b>{money(featured.priceKes)}</b></span></div>}</div>
+    <div className="market-hero-side"><div className="market-side-promo"><span className="market-eyebrow">FOR EVERY KIND OF JOURNEY</span><h2>Find a car that<br/><em>feels like yours.</em></h2><p>Browse our published collection and enquire directly with our team.</p><a href="#inventory">Browse inventory <ArrowRight size={15}/></a></div><div className="market-side-help"><div><span>Need a hand?</span><strong>We are one message away.</strong></div>{whatsapp?<a href={wa} target="_blank" rel="noreferrer"><MessageCircle size={17}/></a>:<a href="#contact"><ArrowUpRight size={17}/></a>}</div></div>
    </div></section>
 
    <section className="market-search-wrap" id="inventory"><div className="market-shell"><div className="market-search-panel"><div className="market-search-heading"><div><span className="market-eyebrow">YOUR NEXT CAR STARTS HERE</span><h2>Find your dream car</h2></div><span className="market-live-indicator"><i/> Live inventory</span></div><div className="market-search-main"><Search size={20}/><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="Search by make, model, year, fuel or colour"/><button onClick={()=>setFiltersOpen(!filtersOpen)}><SlidersHorizontal size={17}/> Filters {activeCount>0&&<b>{activeCount}</b>}</button></div>

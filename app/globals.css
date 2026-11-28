@@ -247,3 +247,10 @@
 @media(max-width:650px){.customer-auth-card,.finance-card{padding:24px 18px}.customer-auth-card h1,.finance-card h1,.wishlist-page h1{font-size:31px}.customer-auth-card form,.finance-card form{grid-template-columns:1fr}.customer-auth-card form label,.finance-card form label{grid-column:1}.finance-enquiry-card{flex-direction:column}.market-car-tags span{font-size:9px}}
 
 .wishlist-signout{float:right;border:1px solid #e8e0db;background:#fff;padding:9px 14px;color:#6d625c;font-size:11px;cursor:pointer}
+
+/* Public vehicle photography: never substitute a car illustration for a listing photo. */
+.market-hero-feature.no-featured-photo{grid-template-columns:1fr;background:linear-gradient(112deg,#08786d 0%,#169e91 100%)}
+.market-hero-feature.no-featured-photo .market-hero-copy{max-width:620px}
+.market-car-image{background:#f2f3f4}
+.market-car-image img{display:block}
+@media(max-width:720px){.market-hero-feature.no-featured-photo{min-height:270px}}
