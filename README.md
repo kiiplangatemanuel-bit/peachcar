@@ -19,6 +19,10 @@ A premium, Kenya-first vehicle marketplace built as a separate Peachcar implemen
 - Admin inventory management: create, edit, delete, publish, unpublish and mark sold
 - Multiple JPEG, PNG and WebP uploads per vehicle, with MIME/signature checks and 10 MB per-image limit
 - Central dealership phone, WhatsApp and email settings
+- Fresh-import / locally-used classification, duty status, inspection date/report and accident-history disclosures
+- Customer registration and login with a separate CUSTOMER role and session-based authentication
+- Customer wishlists persisted against customer and published vehicle records
+- Finance enquiry capture with an admin review inbox and status workflow
 - Cloudinary asset deletion when a vehicle is deleted
 - CI workflow for frontend production build and backend Maven verification
 
@@ -63,6 +67,7 @@ Public:
 - `GET /api/public/vehicles`
 - `GET /api/public/vehicles/{id}`
 - `GET /api/public/settings`
+- `POST /api/public/finance-enquiries`
 
 Admin (authenticated session + CSRF for state-changing requests):
 - `POST /api/admin/auth/login`
@@ -73,6 +78,16 @@ Admin (authenticated session + CSRF for state-changing requests):
 - `PATCH /api/admin/vehicles/{id}/status`
 - `POST /api/admin/vehicles/{id}/images`
 - `GET/PUT /api/admin/settings`
+- `GET /api/admin/finance-enquiries`
+- `PATCH /api/admin/finance-enquiries/{id}/status`
+
+Customer:
+- `POST /api/customer/auth/register`
+- `POST /api/customer/auth/login`
+- `GET /api/customer/auth/me`
+- `POST /api/customer/auth/logout`
+- `GET /api/customer/wishlist`
+- `POST/DELETE /api/customer/wishlist/{vehicleId}`
 
 ## Important operational notes
 
