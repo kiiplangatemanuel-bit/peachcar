@@ -8,7 +8,6 @@ import org.springframework.http.*;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.*;
 import org.springframework.security.core.context.*;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.web.bind.annotation.*;
@@ -27,7 +26,7 @@ public class CustomerAuthController {
  @PostMapping("/register") public Map<String,String> register(@Valid @RequestBody RegisterRequest body,HttpServletRequest request,HttpServletResponse response){
   String email=body.email().trim().toLowerCase();
   if(admins.findByEmailIgnoreCase(email).isPresent()||customers.findByEmailIgnoreCase(email).isPresent())throw new ResponseStatusException(HttpStatus.CONFLICT,"An account with this email already exists.");
-  CustomerAccount saved=customers.save(new CustomerAccount(body.fullName().trim(),email,passwords.encode(body.password())));
+  customers.save(new CustomerAccount(body.fullName().trim(),email,passwords.encode(body.password())));
   return establish(email,body.password(),request,response);
  }
  @PostMapping("/login") public Map<String,String> login(@Valid @RequestBody LoginRequest body,HttpServletRequest request,HttpServletResponse response){return establish(body.email().trim().toLowerCase(),body.password(),request,response);}
