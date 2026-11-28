@@ -11,3 +11,20 @@
 
 .vehicle-detail-page{background:#faf9f6;min-height:75vh;padding:34px 0 90px}.detail-back{display:inline-flex;align-items:center;gap:9px;font-size:11px;font-weight:700;margin-bottom:28px}.detail-layout{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(320px,.8fr);gap:42px;align-items:start}.detail-gallery{display:grid;grid-template-columns:1fr 1fr;gap:10px}.detail-gallery img{width:100%;height:270px;object-fit:cover;background:#eeece6}.detail-gallery img:first-child{grid-column:span 2;height:440px}.detail-no-image{grid-column:span 2;height:390px;background:#eeece6;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;color:#999;font-size:12px}.detail-info{background:#fff;border:1px solid #e8e5df;padding:30px;position:sticky;top:100px}.detail-kicker{display:flex;align-items:center;gap:8px;font-size:9px;font-weight:800;letter-spacing:1.3px;color:#4e8969}.detail-year{font-size:10px;color:#888;margin:23px 0 8px}.detail-info h1{font:700 33px Manrope;letter-spacing:-1.4px;margin:0 0 15px}.detail-price{font:800 24px Manrope}.detail-specs{display:grid;gap:12px;padding:23px 0;margin:22px 0;border-top:1px solid #eee;border-bottom:1px solid #eee}.detail-specs span{display:flex;align-items:center;gap:10px;color:#777;font-size:11px}.detail-info h2{font:700 15px Manrope;margin:0 0 10px}.detail-description{font-size:12px;line-height:1.85;color:#70726b;white-space:pre-line}.detail-contact{border-top:1px solid #eee;margin-top:24px;padding-top:18px;display:grid;gap:10px}.detail-contact p{font-size:11px;font-weight:700;margin:0 0 3px}.detail-contact>a{display:flex;align-items:center;gap:9px;border:1px solid #e6e3dd;padding:12px;font-size:11px;font-weight:700}.detail-contact .detail-whatsapp{background:#242622;color:white;justify-content:space-between}.detail-contact>span{font-size:10px;color:#888}
 @media(max-width:700px){.vehicle-detail-page{padding-top:22px}.detail-layout{grid-template-columns:1fr;gap:20px}.detail-gallery img{height:150px}.detail-gallery img:first-child{height:260px}.detail-info{position:static;padding:22px}.detail-info h1{font-size:27px}.detail-price{font-size:21px}}
+
+/* Dynamic public dealership contact details */
+.contact-section{background:#f6f4ef;padding:76px 0}
+.contact-section h2{font:600 42px Manrope;letter-spacing:-1.8px;margin:13px 0 8px}
+.contact-section h2 i{font-family:Georgia,serif;color:var(--rust);font-weight:400}
+.contact-section>div>p{font-size:12px;color:var(--muted);margin:0 0 26px}
+.contact-options{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.contact-options>a{display:flex;align-items:center;gap:14px;min-width:0;padding:20px;background:#fff;border:1px solid var(--line);transition:.2s}
+.contact-options>a:hover{border-color:var(--rust);transform:translateY(-2px)}
+.contact-options>a>svg:first-child{flex:0 0 auto;color:var(--rust);width:21px;height:21px}
+.contact-options>a>svg:last-child{flex:0 0 auto;width:16px;margin-left:auto;color:#777}
+.contact-options span{display:grid;gap:6px;min-width:0}
+.contact-options small{font-size:8px;letter-spacing:1.4px;color:#92948d;font-weight:800}
+.contact-options strong{font-size:12px;overflow-wrap:anywhere}
+.footer-contact{display:flex;flex-direction:column;gap:9px;align-items:flex-start}
+@media(max-width:850px){.footer-contact{grid-column:2;grid-row:3}.contact-options{grid-template-columns:1fr}}
+@media(max-width:600px){.contact-section{padding:58px 0}.contact-section h2{font-size:34px}.contact-options{gap:10px}.footer-contact{grid-column:span 2;grid-row:auto}}
