@@ -22,7 +22,9 @@ export default function AdminPage(){
  const [editing,setEditing]=useState<string|null>(null);
  const [files,setFiles]=useState<FileList|null>(null);
  const [notice,setNotice]=useState("");
- const [busy,setBusy]=useState(false);\n const existingImageCount=editing?vehicles.find(vehicle=>vehicle.id===editing)?.images?.length||0:0;\n const remainingImageSlots=Math.max(0,7-existingImageCount);
+ const [busy,setBusy]=useState(false);
+ const existingImageCount=editing?vehicles.find(vehicle=>vehicle.id===editing)?.images?.length||0:0;
+ const remainingImageSlots=Math.max(0,7-existingImageCount);
 
  async function refreshCsrf(){const r=await fetch("/api/csrf",{credentials:"include"});if(r.ok){const v=await r.json();setCsrf(v.token||"");return v.token||"";}return "";}
  async function api(path:string,init:RequestInit={}){const method=(init.method||"GET").toUpperCase();const headers=new Headers(init.headers);if(csrf&&method!=="GET"&&method!=="HEAD")headers.set("X-XSRF-TOKEN",csrf);if(init.body&&!(init.body instanceof FormData))headers.set("Content-Type","application/json");return fetch(path,{...init,headers,credentials:"include"});}
