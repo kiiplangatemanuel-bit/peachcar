@@ -19,6 +19,10 @@ A premium, Kenya-first vehicle marketplace built as a separate Peachcar implemen
 - Admin inventory management: create, edit, delete, publish, unpublish and mark sold
 - Multiple JPEG, PNG and WebP uploads per vehicle, with MIME/signature checks and 10 MB per-image limit
 - Central dealership phone, WhatsApp and email settings
+- Fresh-import / locally-used classification, duty status, inspection date/report and accident-history disclosures
+- Customer registration and login with a separate CUSTOMER role and session-based authentication
+- Customer wishlists persisted against customer and published vehicle records
+- Finance enquiry capture with an admin review inbox and status workflow
 - Cloudinary asset deletion when a vehicle is deleted
 - CI workflow for frontend production build and backend Maven verification
 
@@ -50,12 +54,20 @@ Never commit credentials, database URLs containing passwords, or Cloudinary secr
 - Set `APP_ORIGIN` to the exact deployed frontend origin; use comma-separated exact origins if you support multiple Vercel preview domains.
 - The initial admin is only inserted when its email does not already exist. Password rotation for an existing admin should be performed through a separately secured credential-management procedure.
 
+### Isolated preview deployment
+
+- Scope `API_BASE_URL=https://peachcar-api.onrender.com` to the Vercel Preview environment and the exact preview Git branch; do not add it to Production unless intentionally releasing.
+- Set `PEACHCAR_ADMIN_BOOTSTRAP_REQUIRED=true` only on a preview backend after both admin credentials have been configured. This makes startup fail rather than silently launching without an admin.
+- Cloudinary activation uses the exact variables `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY` and `CLOUDINARY_API_SECRET`. If the cloud name is present but either credential is missing, startup fails with a configuration error.
+- Never reuse a production database or production admin credentials for an untrusted preview environment.
+
 ## Routes
 
 Public:
 - `GET /api/public/vehicles`
 - `GET /api/public/vehicles/{id}`
 - `GET /api/public/settings`
+- `POST /api/public/finance-enquiries`
 
 Admin (authenticated session + CSRF for state-changing requests):
 - `POST /api/admin/auth/login`
@@ -66,6 +78,16 @@ Admin (authenticated session + CSRF for state-changing requests):
 - `PATCH /api/admin/vehicles/{id}/status`
 - `POST /api/admin/vehicles/{id}/images`
 - `GET/PUT /api/admin/settings`
+- `GET /api/admin/finance-enquiries`
+- `PATCH /api/admin/finance-enquiries/{id}/status`
+
+Customer:
+- `POST /api/customer/auth/register`
+- `POST /api/customer/auth/login`
+- `GET /api/customer/auth/me`
+- `POST /api/customer/auth/logout`
+- `GET /api/customer/wishlist`
+- `POST/DELETE /api/customer/wishlist/{vehicleId}`
 
 ## Important operational notes
 
