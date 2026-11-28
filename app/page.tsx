@@ -66,7 +66,8 @@ export default function Home(){
  const transmissions=useMemo(()=>Array.from(new Set(vehicles.map(v=>v.transmission||"").filter(Boolean))).sort(),[vehicles]);
  const filtered=useMemo(()=>{
   const q=query.trim().toLowerCase();
-  const found=vehicles.filter(v=>{\n   if(!v.images?.some(image=>Boolean(image.url)))return false;
+  const found=vehicles.filter(v=>{
+   if(!v.images?.some(image=>Boolean(image.url)))return false;
    const text=[v.make,v.model,v.year,v.bodyType,v.fuel,v.transmission,v.exteriorColour].join(" ").toLowerCase();
    return (!q||text.includes(q))&&(!filters.make||v.make===filters.make)&&(!filters.body||v.bodyType===filters.body)&&(!filters.fuel||v.fuel===filters.fuel)&&(!filters.transmission||v.transmission===filters.transmission)&&(!filters.listingType||v.listingType===filters.listingType)&&(!filters.dutyStatus||v.dutyStatus===filters.dutyStatus)&&(!filters.inspectionStatus||v.inspectionStatus===filters.inspectionStatus)&&(!filters.accidentHistory||v.accidentHistory===filters.accidentHistory)&&(!filters.yearFrom||v.year>=Number(filters.yearFrom))&&(!filters.yearTo||v.year<=Number(filters.yearTo))&&(!filters.priceFrom||Number(v.priceKes)>=Number(filters.priceFrom))&&(!filters.priceTo||Number(v.priceKes)<=Number(filters.priceTo))&&(!filters.mileageTo||(v.mileageKm!==null&&Number(v.mileageKm)<=Number(filters.mileageTo)));
   });
